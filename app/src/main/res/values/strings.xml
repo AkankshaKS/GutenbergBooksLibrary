@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GutenbergBooksLibrary</string>
+    <string name="gutenberg_project">Gutenberg Project</string>
+    <string name="a_social_cataloging_website_that_allows_you_to_freely_search_its_database_of_books_annotations_and_reviews">A social cataloging website that allows you to freely search its database of books, annotations, and reviews.</string>
 </resources>
