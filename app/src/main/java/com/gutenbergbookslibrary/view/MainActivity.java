@@ -10,7 +10,7 @@ import android.os.Bundle;
 import com.gutenbergbookslibrary.R;
 import com.gutenbergbookslibrary.databinding.ActivityMainBinding;
 import com.gutenbergbookslibrary.model.Genre;
-import com.gutenbergbookslibrary.view.adapter.BookAdapter;
+import com.gutenbergbookslibrary.view.adapter.GenreAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-    BookAdapter adapter;
+    GenreAdapter adapter;
     List<Genre> genreList = new ArrayList<>();
 
     @Override
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         genreList = new ArrayList<>();
-        adapter = new BookAdapter(this, genreList);
+        adapter = new GenreAdapter(this, genreList);
         prepareGenres();
 
         LinearLayoutManager layoutManager= new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
         genreList.add(genres);
 
         adapter.notifyDataSetChanged();
-
-
 
 
     }

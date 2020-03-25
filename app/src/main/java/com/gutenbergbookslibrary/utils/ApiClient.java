@@ -36,7 +36,7 @@ public class ApiClient {
 
     private static Retrofit getRetrofitInstance() {
         return new Retrofit.Builder()
-                .baseUrl("http://skunkworks.ignitesol.com:8000/")
+                .baseUrl("http://skunkworks.ignitesol.com:8000/books")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
