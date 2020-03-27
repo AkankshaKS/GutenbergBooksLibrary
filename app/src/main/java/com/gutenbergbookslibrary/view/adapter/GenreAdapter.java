@@ -1,7 +1,9 @@
 package com.gutenbergbookslibrary.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.gutenbergbookslibrary.R;
 import com.gutenbergbookslibrary.databinding.ItemGenreBinding;
 import com.gutenbergbookslibrary.model.Genre;
+import com.gutenbergbookslibrary.view.BooksActivity;
 
 import java.util.List;
 
@@ -19,7 +22,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
 
     private List<Genre> genres;
     private Context mContext;
-    ItemGenreBinding binding;
+    private ItemGenreBinding binding;
 
     public GenreAdapter(Context mContext, List<Genre> genresList) {
         this.mContext = mContext;
@@ -58,6 +61,14 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
         void bind(final Genre genre){
             binding.textGenre.setText(genre.getTitle());
             Glide.with(mContext).load(genre.getThumbnail()).into(binding.iconGenre);
+
+            binding.cardViewGenre.setOnClickListener(v -> {
+
+                Intent intent = new Intent(v.getContext(), BooksActivity.class);
+                intent.putExtra("genre", genre.getTitle());
+                v.getContext().startActivity(intent);
+
+            });
         }
 
     }

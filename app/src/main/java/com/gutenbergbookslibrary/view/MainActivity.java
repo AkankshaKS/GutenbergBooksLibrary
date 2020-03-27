@@ -47,25 +47,25 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.history,
                 R.drawable.adventure};
 
-        Genre genres = new Genre( icon_genre[0],"FICTION");
+        Genre genres = new Genre( icon_genre[0],"fiction");
         genreList.add(genres);
 
-        genres = new Genre( icon_genre[1],"DRAMA");
+        genres = new Genre( icon_genre[1],"drama");
         genreList.add(genres);
 
-        genres = new Genre( icon_genre[2],"HUMOUR");
+        genres = new Genre( icon_genre[2],"humour");
         genreList.add(genres);
 
-        genres = new Genre( icon_genre[3],"POLITICS");
+        genres = new Genre( icon_genre[3],"politics");
         genreList.add(genres);
 
-        genres = new Genre( icon_genre[4],"PHILOSPHY");
+        genres = new Genre( icon_genre[4],"philosphy");
         genreList.add(genres);
 
-        genres = new Genre( icon_genre[5],"HISTORY");
+        genres = new Genre( icon_genre[5],"history");
         genreList.add(genres);
 
-        genres = new Genre( icon_genre[6],"ADVENTURE");
+        genres = new Genre( icon_genre[6],"adventure");
         genreList.add(genres);
 
         adapter.notifyDataSetChanged();
