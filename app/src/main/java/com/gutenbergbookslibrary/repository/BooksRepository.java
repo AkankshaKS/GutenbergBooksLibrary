@@ -17,6 +17,7 @@ public class BooksRepository {
 
     private WebService webService;
     private final MutableLiveData<BooksData> booksDataMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<BooksData> pagedBooksDataMutableLiveData = new MutableLiveData<>();
 
 
     public BooksRepository() {
@@ -60,8 +61,32 @@ public class BooksRepository {
         });
     }
 
+
+    public void getGenrePagedBooks(String page, String genre){
+
+     webService.getGenrePagedBooks(page, genre).enqueue(new Callback<BooksData>() {
+         @Override
+         public void onResponse(@NotNull Call<BooksData> call, @NotNull Response<BooksData> response) {
+
+             pagedBooksDataMutableLiveData.postValue(response.body());
+         }
+
+         @Override
+         public void onFailure(@NotNull Call<BooksData> call, @NotNull Throwable t) {
+             pagedBooksDataMutableLiveData.postValue(null);
+
+         }
+     });
+
+
+    }
+
     public LiveData<BooksData> getBooksData() {
         return booksDataMutableLiveData;
+    }
+
+    public LiveData<BooksData> getPagedBooksData() {
+        return pagedBooksDataMutableLiveData;
     }
 
 

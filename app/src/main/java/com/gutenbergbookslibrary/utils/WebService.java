@@ -12,6 +12,10 @@ public interface WebService {
     Call<BooksData> getGenreBooks(@Query("topic") String genre);
 
     @GET("/books")
+    Call<BooksData> getGenrePagedBooks(@Query("page") String page,
+                                        @Query("topic") String genre);
+
+    @GET("/books")
     Call<BooksData> getSearchedBooks(@Query("search") String searchQuery);
 
 

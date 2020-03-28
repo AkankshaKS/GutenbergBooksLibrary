@@ -12,6 +12,7 @@ public class BooksViewModel extends AndroidViewModel {
 
     private BooksRepository booksRepository;
     private LiveData<BooksData> booksDataLiveData;
+    private LiveData<BooksData> pagedBooksDataLiveData;
 
 
     public BooksViewModel(@NonNull Application application) {
@@ -21,10 +22,15 @@ public class BooksViewModel extends AndroidViewModel {
     public void init(){
         booksRepository = new BooksRepository();
         booksDataLiveData = booksRepository.getBooksData();
+        pagedBooksDataLiveData = booksRepository.getPagedBooksData();
 
     }
     public void getGenreBooks(String genre) {
         booksRepository.getGenreBooks(genre);
+    }
+
+    public void getGenrePagedBooks(String page,String genre) {
+        booksRepository.getGenrePagedBooks(page, genre);
     }
 
     public void getSearchedBooks(String searchedQuery){
@@ -34,5 +40,11 @@ public class BooksViewModel extends AndroidViewModel {
     public LiveData<BooksData> getBooksData() {
             return booksDataLiveData;
     }
+
+    public LiveData<BooksData> getPagedBooksData() {
+        return pagedBooksDataLiveData;
+    }
+
+
 
 }

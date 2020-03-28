@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.gutenbergbookslibrary.R;
 import com.gutenbergbookslibrary.databinding.ListItemBooksBinding;
 import com.gutenbergbookslibrary.model.Result;
-import com.gutenbergbookslibrary.utils.OnBottomReachedListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,6 @@ import java.util.List;
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksViewHolder> {
 
     private List<Result> resultList = new ArrayList<>();
-   // private OnBottomReachedListener onBottomReachedListener;
     private Context context;
 
 
@@ -60,10 +58,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksViewHolde
         return resultList.size();
     }
 
-   /* public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener){
-        this.onBottomReachedListener = onBottomReachedListener;
-    }
-*/
+
     class BooksViewHolder extends RecyclerView.ViewHolder {
 
         ListItemBooksBinding binding;
