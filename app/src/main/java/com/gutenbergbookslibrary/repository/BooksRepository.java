@@ -15,9 +15,8 @@ import retrofit2.Response;
 
 public class BooksRepository {
 
-    WebService webService;
-    private MutableLiveData<BooksData> booksDataMutableLiveData;
-    private static final int PAGE_SIZE = 20;
+    private WebService webService;
+    private final MutableLiveData<BooksData> booksDataMutableLiveData = new MutableLiveData<>();
 
 
     public BooksRepository() {
@@ -31,7 +30,7 @@ public class BooksRepository {
             @Override
             public void onResponse(Call<BooksData> call, Response<BooksData> response) {
                 booksDataMutableLiveData.postValue(response.body());
-                Log.d("data",response.toString());
+                Log.d("data",response.body().getResults().toString());
             }
 
             @Override
@@ -47,11 +46,6 @@ public class BooksRepository {
     public LiveData<BooksData> getBooksData() {
         return booksDataMutableLiveData;
     }
-
-
-
-
-
 
 
 }
