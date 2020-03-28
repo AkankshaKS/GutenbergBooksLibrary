@@ -11,7 +11,7 @@ import com.gutenbergbookslibrary.repository.BooksRepository;
 public class BooksViewModel extends AndroidViewModel {
 
     private BooksRepository booksRepository;
-    public LiveData<BooksData> booksDataLiveData;
+    private LiveData<BooksData> booksDataLiveData;
 
 
     public BooksViewModel(@NonNull Application application) {
@@ -25,6 +25,10 @@ public class BooksViewModel extends AndroidViewModel {
     }
     public void getGenreBooks(String genre) {
         booksRepository.getGenreBooks(genre);
+    }
+
+    public void getSearchedBooks(String searchedQuery){
+        booksRepository.getSearchedBooks(searchedQuery);
     }
 
     public LiveData<BooksData> getBooksData() {

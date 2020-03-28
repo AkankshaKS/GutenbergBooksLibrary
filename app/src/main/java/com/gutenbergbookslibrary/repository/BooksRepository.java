@@ -1,13 +1,13 @@
 package com.gutenbergbookslibrary.repository;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.gutenbergbookslibrary.model.BooksData;
 import com.gutenbergbookslibrary.utils.ApiClient;
 import com.gutenbergbookslibrary.utils.WebService;
+
+import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,19 +28,36 @@ public class BooksRepository {
 
         webService.getGenreBooks(genre).enqueue(new Callback<BooksData>() {
             @Override
-            public void onResponse(Call<BooksData> call, Response<BooksData> response) {
+            public void onResponse(@NotNull Call<BooksData> call, @NotNull Response<BooksData> response) {
                 booksDataMutableLiveData.postValue(response.body());
-                Log.d("data",response.body().getResults().toString());
+                assert response.body() != null;
             }
 
             @Override
-            public void onFailure(Call<BooksData> call, Throwable t) {
+            public void onFailure(@NotNull Call<BooksData> call, @NotNull Throwable t) {
                 booksDataMutableLiveData.postValue(null);
 
             }
 
         });
 
+    }
+
+    public void getSearchedBooks(String searchQuery){
+
+        webService.getSearchedBooks(searchQuery).enqueue(new Callback<BooksData>() {
+            @Override
+            public void onResponse(@NotNull Call<BooksData> call, @NotNull Response<BooksData> response) {
+
+                booksDataMutableLiveData.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<BooksData> call, @NotNull Throwable t) {
+                booksDataMutableLiveData.postValue(null);
+
+            }
+        });
     }
 
     public LiveData<BooksData> getBooksData() {

@@ -12,7 +12,7 @@ public interface WebService {
     Call<BooksData> getGenreBooks(@Query("topic") String genre);
 
     @GET("/books")
-    Call<BooksData> getBooks(@Query("mime_type") String mime_type);
+    Call<BooksData> getSearchedBooks(@Query("search") String searchQuery);
 
 
 

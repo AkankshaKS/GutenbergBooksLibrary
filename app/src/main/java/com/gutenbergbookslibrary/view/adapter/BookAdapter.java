@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.gutenbergbookslibrary.R;
 import com.gutenbergbookslibrary.databinding.ListItemBooksBinding;
 import com.gutenbergbookslibrary.model.Result;
+import com.gutenbergbookslibrary.utils.OnBottomReachedListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,13 @@ import java.util.List;
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksViewHolder> {
 
     private List<Result> resultList = new ArrayList<>();
+   // private OnBottomReachedListener onBottomReachedListener;
     private Context context;
+
 
     public BookAdapter(Context context) {
         this.context = context;
+
     }
 
     @NonNull
@@ -39,6 +43,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksViewHolde
     public void onBindViewHolder(@NonNull BooksViewHolder holder, int position) {
         Result result = resultList.get(position);
         holder.bind(result, position);
+
+
+
     }
 
     public void setAdapter(List<Result> results) {
@@ -47,16 +54,21 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksViewHolde
     }
 
 
+
     @Override
     public int getItemCount() {
         return resultList.size();
     }
 
-    public class BooksViewHolder extends RecyclerView.ViewHolder {
+   /* public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener){
+        this.onBottomReachedListener = onBottomReachedListener;
+    }
+*/
+    class BooksViewHolder extends RecyclerView.ViewHolder {
 
         ListItemBooksBinding binding;
 
-        public BooksViewHolder(ListItemBooksBinding listItemBooksBinding) {
+        BooksViewHolder(ListItemBooksBinding listItemBooksBinding) {
             super(listItemBooksBinding.getRoot());
             binding = listItemBooksBinding;
         }
@@ -66,7 +78,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksViewHolde
                     .getImageJpeg())
                     .into(binding.imageMoviePoster);
             binding.textBookName.setText(result.getTitle());
-           // binding.textBookWriter .setText(result.getAuthors().get(position).getName());
+        //    binding.textBookWriter .setText(result.getAuthors().get(position).getName());
             binding.setBooks(result);
 
         }
