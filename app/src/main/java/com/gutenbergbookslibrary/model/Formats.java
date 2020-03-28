@@ -67,6 +67,11 @@ public class Formats implements Parcelable
     @SerializedName("application/octet-stream")
     @Expose
     private String applicationOctetStream;
+
+    @SerializedName("application/pdf")
+    @Expose
+    private String applicationPdf;
+
     public final static Parcelable.Creator<Formats> CREATOR = new Creator<Formats>() {
 
 
@@ -96,9 +101,19 @@ public class Formats implements Parcelable
         this.textHtmlCharsetUsAscii = ((String) in.readValue((String.class.getClassLoader())));
         this.textXRst = ((String) in.readValue((String.class.getClassLoader())));
         this.applicationOctetStream = ((String) in.readValue((String.class.getClassLoader())));
+        this.applicationPdf = ((String) in.readValue((String.class.getClassLoader())));
+
     }
 
     public Formats() {
+    }
+
+    public String getApplicationPdf() {
+        return applicationPdf;
+    }
+
+    public void setApplicationPdf(String applicationPdf) {
+        this.applicationPdf = applicationPdf;
     }
 
     public String getApplicationXMobipocketEbook() {
@@ -237,6 +252,8 @@ public class Formats implements Parcelable
         dest.writeValue(textHtmlCharsetUsAscii);
         dest.writeValue(textXRst);
         dest.writeValue(applicationOctetStream);
+        dest.writeValue(applicationPdf);
+
     }
 
     public int describeContents() {

@@ -1,5 +1,8 @@
 package com.gutenbergbookslibrary.view;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -19,6 +22,7 @@ import com.gutenbergbookslibrary.model.Result;
 import com.gutenbergbookslibrary.view.adapter.BookAdapter;
 import com.gutenbergbookslibrary.viewmodel.BooksViewModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +34,7 @@ public class BooksActivity extends AppCompatActivity {
     List<Result> pagedArrayList = new ArrayList<>();
     BooksViewModel viewModel;
     String genre;
+    int page = 0;
     boolean isFirst, isLast, isEmpty;
 
     @Override
@@ -49,13 +54,19 @@ public class BooksActivity extends AppCompatActivity {
         viewModel.getBooksData().observe(this, data -> {
 
            checkForData(data);
+            if(data.getNext() != null){
+                page = page+ 1;
+            }
            if(isFirst){
                for(int i = 0; i < data.getResults().size(); i++){
                    if(data.getResults().get(i).getFormats().getImageJpeg() != null){
                        Result result = data.getResults().get(i);
                        resultArrayList.add(result);
+                   }else if(resultArrayList == null){
+                       getPagedBooksData();
                    }
                }
+
            }else if(!isEmpty && !isFirst){
                getPagedBooksData();
 
@@ -68,18 +79,28 @@ public class BooksActivity extends AppCompatActivity {
 
     private void getPagedBooksData() {
 
-        int i = 6;
-        viewModel.getGenrePagedBooks(String.valueOf(i), genre);
+
+        viewModel.getGenrePagedBooks(String.valueOf(page), genre);
 
         viewModel.getPagedBooksData().observe(this, data -> {
-            for(int i1 = 0; i1 < data.getResults().size(); i1++){
-                if(data.getResults().get(i1).getFormats().getImageJpeg() != null){
-                    Result result = data.getResults().get(i1);
-                    pagedArrayList.add(result);
+
+            if(data.getNext() != null){
+                for(int i = 0; i < data.getResults().size(); i++){
+                    if(data.getResults().get(i).getFormats().getImageJpeg() != null){
+                        Result result = data.getResults().get(i);
+                        pagedArrayList.add(result);
+                    }
                 }
             }
+
             adapter.setAdapter(pagedArrayList);
             adapter.notifyDataSetChanged();
+
+            if(data.getNext() != null){
+                page = page+ 1;
+            }else{
+                Toast.makeText(getApplicationContext(), "That's all", Toast.LENGTH_LONG).show();
+            }
         });
 
     }
@@ -130,14 +151,9 @@ public class BooksActivity extends AppCompatActivity {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 
                 if(!binding.recyclerView.canScrollVertically(1)){
-                    while (isFirst){
-                        getPagedBooksData();
-                        isFirst = false;
-                        adapter.notifyDataSetChanged();
-
-
-                    }
-                    Toast.makeText(getApplicationContext(), "Loading..please wait", Toast.LENGTH_LONG).show();
+                    getPagedBooksData();
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), "Loading.. please wait", Toast.LENGTH_LONG).show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);
             }
@@ -147,8 +163,8 @@ public class BooksActivity extends AppCompatActivity {
 
     private void getGenreBooks(String genre) {
       viewModel.getGenreBooks(genre);
-
     }
+
 
 
 }
