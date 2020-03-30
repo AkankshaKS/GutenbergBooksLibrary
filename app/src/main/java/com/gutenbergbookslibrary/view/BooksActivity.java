@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,7 +35,8 @@ public class BooksActivity extends AppCompatActivity {
     List<Result> pagedArrayList = new ArrayList<>();
     BooksViewModel viewModel;
     String genre;
-    int page = 0;
+    int page;
+    Uri uri;
     boolean isFirst, isLast, isEmpty;
 
     @Override
@@ -51,11 +53,18 @@ public class BooksActivity extends AppCompatActivity {
         binding.iconBack.setOnClickListener(v -> BooksActivity.super.onBackPressed());
 
 
+
         viewModel.getBooksData().observe(this, data -> {
 
            checkForData(data);
             if(data.getNext() != null){
-                page = page+ 1;
+                uri = Uri.parse(data.getNext());
+                String pageNumber = uri.getQueryParameter("page");
+                Log.d("page", pageNumber);
+                page = Integer.parseInt(pageNumber);
+                getPagedBooksData(page);
+
+
             }
            if(isFirst){
                for(int i = 0; i < data.getResults().size(); i++){
@@ -63,12 +72,12 @@ public class BooksActivity extends AppCompatActivity {
                        Result result = data.getResults().get(i);
                        resultArrayList.add(result);
                    }else if(resultArrayList == null){
-                       getPagedBooksData();
+                       getPagedBooksData(page);
                    }
                }
 
            }else if(!isEmpty && !isFirst){
-               getPagedBooksData();
+               getPagedBooksData(page);
 
             }
 
@@ -77,7 +86,7 @@ public class BooksActivity extends AppCompatActivity {
         });
     }
 
-    private void getPagedBooksData() {
+    private void getPagedBooksData(int page) {
 
 
         viewModel.getGenrePagedBooks(String.valueOf(page), genre);
@@ -97,7 +106,11 @@ public class BooksActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
 
             if(data.getNext() != null){
-                page = page+ 1;
+                uri = Uri.parse(data.getNext());
+                String pageNumber = uri.getQueryParameter("page");
+                Log.d("page", pageNumber);
+                 int paged = Integer.parseInt(pageNumber);
+                getPagedBooksData(paged);
             }else{
                 Toast.makeText(getApplicationContext(), "That's all", Toast.LENGTH_LONG).show();
             }
@@ -151,9 +164,12 @@ public class BooksActivity extends AppCompatActivity {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 
                 if(!binding.recyclerView.canScrollVertically(1)){
-                    getPagedBooksData();
-                    adapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), "Loading.. please wait", Toast.LENGTH_LONG).show();
+                    if( page != 0){
+                        getPagedBooksData(page);
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(), "Loading.. please wait", Toast.LENGTH_LONG).show();
+                    }
+
                 }
                 super.onScrollStateChanged(recyclerView, newState);
             }
